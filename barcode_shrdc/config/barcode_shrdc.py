@@ -7,7 +7,12 @@ def get_data():
             "items": [
                 {
                     "type": "doctype",
-                    "name": "Barcode",
+                    "name": "Barcode Generator",
+                    "onboard": 1,
+                },
+                {
+                    "type": "doctype",
+                    "name": "testing",
                     "onboard": 1,
                 }
             ]

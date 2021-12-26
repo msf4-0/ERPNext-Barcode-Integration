@@ -8,7 +8,7 @@ def get_data():
 			"module_name": "Barcode Shrdc",
 			"category": "Modules",
 			"color": "grey",
-			"icon": "octicon octicon-file-directory",
+			"icon": "fa fa-barcode",
 			"type": "module",
 			"label": _("Barcode Shrdc")
 		}
