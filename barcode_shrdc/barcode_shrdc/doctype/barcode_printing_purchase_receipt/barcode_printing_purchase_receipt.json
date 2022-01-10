@@ -1,0 +1,71 @@
+{
+ "autoname": "hash",
+ "creation": "2021-12-27 16:19:28.390995",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "purchase_receipt",
+  "pr_date",
+  "col_break1",
+  "supplier",
+  "grand_total"
+ ],
+ "fields": [
+  {
+   "fieldname": "purchase_receipt",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Purchase Receipt",
+   "oldfieldname": "prevdoc_docname",
+   "oldfieldtype": "Data",
+   "options": "Purchase Receipt",
+   "print_width": "150px",
+   "reqd": 1,
+   "width": "150px"
+  },
+  {
+   "fieldname": "pr_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Purchase Receipt Date",
+   "oldfieldname": "document_date",
+   "oldfieldtype": "Date",
+   "print_width": "120px",
+   "read_only": 1,
+   "width": "120px"
+  },
+  {
+   "fieldname": "col_break1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Supplier",
+   "options": "Supplier",
+   "print_width": "150px",
+   "read_only": 1,
+   "width": "150px"
+  },
+  {
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Grand Total",
+   "print_width": "120px",
+   "read_only": 1,
+   "width": "120px"
+  }
+ ],
+ "istable": 1,
+ "modified": "2021-12-27 16:35:12.949171",
+ "modified_by": "Administrator",
+ "module": "Barcode Shrdc",
+ "name": "Barcode Printing Purchase Receipt",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "ASC"
+}

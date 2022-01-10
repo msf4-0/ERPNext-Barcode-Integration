@@ -1,0 +1,59 @@
+{
+ "autoname": "hash",
+ "creation": "2021-12-27 16:17:53.780500",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "stock_entry",
+  "col_break1",
+  "se_purpose",
+  "t_warehouse"
+ ],
+ "fields": [
+  {
+   "fieldname": "stock_entry",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Stock Entry",
+   "oldfieldname": "prevdoc_docname",
+   "oldfieldtype": "Data",
+   "options": "Stock Entry",
+   "print_width": "150px",
+   "reqd": 1,
+   "width": "150px"
+  },
+  {
+   "fieldname": "col_break1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "t_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Target Warehouse",
+   "oldfieldname": "document_date",
+   "oldfieldtype": "Date",
+   "options": "Warehouse",
+   "print_width": "120px",
+   "read_only": 1,
+   "width": "120px"
+  },
+  {
+   "fieldname": "se_purpose",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Stock Entry Type",
+   "options": "Stock Entry Type"
+  }
+ ],
+ "istable": 1,
+ "modified": "2021-12-27 16:39:03.369657",
+ "modified_by": "Administrator",
+ "module": "Barcode Shrdc",
+ "name": "Barcode Printing Stock Entry",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "ASC"
+}

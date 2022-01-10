@@ -1,0 +1,326 @@
+{
+ "autoname": "naming_series:",
+ "creation": "2021-12-27 15:21:02.662532",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "company",
+  "get_items_from",
+  "column_break1",
+  "filters",
+  "item_code",
+  "work_order",
+  "warehouse",
+  "supplier",
+  "column_break2",
+  "stock_entry_type",
+  "from_date",
+  "to_date",
+  "purchase_receipts_detail",
+  "get_purchase_receipt",
+  "purchase_receipts",
+  "stock_entry_detail",
+  "get_stock_entry",
+  "stock_entries",
+  "select_items_to_print_barcode",
+  "get_items",
+  "items",
+  "get_barcode",
+  "section_break_23",
+  "show_sku",
+  "column_break_24",
+  "show_serial_no",
+  "column_break_26",
+  "show_batch_no",
+  "sku_section",
+  "barcodes",
+  "serial_section",
+  "serial_barcode_type",
+  "serials",
+  "batch_section",
+  "batch_barcode_type",
+  "batchs",
+  "doc_info",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "BP-.YYYY.-.MM.-.DD.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "get_items_from",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Get Items From",
+   "options": "\nPurchase Receipt\nStock Entry"
+  },
+  {
+   "fieldname": "column_break1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval: doc.__islocal",
+   "depends_on": "eval: doc.get_items_from",
+   "fieldname": "filters",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Filters"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "depends_on": "//eval: doc.get_items_from == \"Stock Entry\"",
+   "fieldname": "work_order",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Work Order",
+   "options": "Work Order"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "depends_on": "//eval: doc.get_items_from == \"Stock Entry\"",
+   "fieldname": "stock_entry_type",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Stock Entry Type",
+   "options": "Stock Entry Type"
+  },
+  {
+   "fieldname": "column_break2",
+   "fieldtype": "Column Break",
+   "hidden": 1,
+   "width": "50%"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "From Date"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "To Date"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval: doc.__islocal",
+   "depends_on": "//eval: doc.get_items_from == \"Purchase Receipt\"",
+   "fieldname": "purchase_receipts_detail",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Purchase Receipts Detail"
+  },
+  {
+   "fieldname": "get_purchase_receipt",
+   "fieldtype": "Button",
+   "hidden": 1,
+   "label": "Get Purchase Receipt"
+  },
+  {
+   "fieldname": "purchase_receipts",
+   "fieldtype": "Table",
+   "hidden": 1,
+   "label": "Purchase Receipts",
+   "no_copy": 1,
+   "options": "Barcode Printing Purchase Receipt"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval: doc.__islocal",
+   "depends_on": "eval: doc.get_items_from == \"Stock Entry\"",
+   "fieldname": "stock_entry_detail",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Stock Entry Detail"
+  },
+  {
+   "fieldname": "get_stock_entry",
+   "fieldtype": "Button",
+   "label": "Get Stock Entry"
+  },
+  {
+   "fieldname": "stock_entries",
+   "fieldtype": "Table",
+   "label": "Stock Entries",
+   "no_copy": 1,
+   "options": "Barcode Printing Stock Entry"
+  },
+  {
+   "fieldname": "select_items_to_print_barcode",
+   "fieldtype": "Section Break",
+   "label": "Select Items for Barcode Printing"
+  },
+  {
+   "depends_on": "get_items_from",
+   "fieldname": "get_items",
+   "fieldtype": "Button",
+   "hidden": 1,
+   "label": "Get Items For Barcode Printing"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Barcode Printing",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: doc.get_items_from == \"Purchase Receipt\"",
+   "fieldname": "supplier",
+   "fieldtype": "Data",
+   "label": "Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "no_copy": 1,
+   "options": "Barcode Generator Items",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.show_sku == 1",
+   "fieldname": "sku_section",
+   "fieldtype": "Section Break",
+   "label": "Preview: SKU Barcode"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_sku",
+   "fieldtype": "Check",
+   "label": "Print SKU Barcode"
+  },
+  {
+   "fieldname": "doc_info",
+   "fieldtype": "Section Break",
+   "label": "DocType Info"
+  },
+  {
+   "default": "\n\n",
+   "fieldname": "barcodes",
+   "fieldtype": "HTML",
+   "label": "Barcode"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_serial_no",
+   "fieldtype": "Check",
+   "label": "Print Serial No. Barcode"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_batch_no",
+   "fieldtype": "Check",
+   "label": "Print Batch No. Barcode"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_26",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_23",
+   "fieldtype": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.show_serial_no== 1",
+   "fieldname": "serial_section",
+   "fieldtype": "Section Break",
+   "label": "Preview: Serial No. Barcode"
+  },
+  {
+   "fieldname": "serials",
+   "fieldtype": "HTML",
+   "label": "Serial No. Barcode"
+  },
+  {
+   "default": "CODE128",
+   "fieldname": "serial_barcode_type",
+   "fieldtype": "Select",
+   "label": "Barcode Type",
+   "options": "CODE128\nEAN13\nEAN8\nUPC\nCODE39"
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.show_batch_no== 1",
+   "fieldname": "batch_section",
+   "fieldtype": "Section Break",
+   "label": "Preview: Batch No. Barcode"
+  },
+  {
+   "default": "CODE128",
+   "fieldname": "batch_barcode_type",
+   "fieldtype": "Select",
+   "label": "Barcode Type",
+   "options": "CODE128\nEAN13\nEAN8\nUPC\nCODE39"
+  },
+  {
+   "fieldname": "batchs",
+   "fieldtype": "HTML",
+   "label": "Serial No. Barcode"
+  },
+  {
+   "fieldname": "get_barcode",
+   "fieldtype": "Button",
+   "label": "Get Items Barcode"
+  }
+ ],
+ "icon": "fa fa-print",
+ "modified": "2022-01-05 16:18:39.376233",
+ "modified_by": "Administrator",
+ "module": "Barcode Shrdc",
+ "name": "Barcode Printing",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "ASC"
+}
