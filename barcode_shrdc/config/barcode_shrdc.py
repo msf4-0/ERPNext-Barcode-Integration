@@ -3,16 +3,21 @@ from frappe import _
 def get_data():
     config = [
         {
-            "label": _("Barcode Scanner"),
+            "label": _("Barcode Printing"),
             "items": [
                 {
                     "type": "doctype",
-                    "name": "Barcode Generator",
+                    "name": "Barcode Printing",
                     "onboard": 1,
-                },
+                }
+            ]
+        },
+            {
+            "label": _("Barcode Settings"),
+            "items": [
                 {
                     "type": "doctype",
-                    "name": "testing",
+                    "name": "Barcode Configuration",
                     "onboard": 1,
                 }
             ]

@@ -17,10 +17,10 @@ frappe.ui.form.on('Barcode Printing', {
 				}
 			})
 			frm.set_value("get_items_from","Purchase Receipt");
-			if (frm.fields_dict['filters'].collapse_link[0].className == 'section-head')
-				frm.fields_dict['filters'].collapse();
-			if (frm.fields_dict['purchase_receipts_detail'].collapse_link[0].className == 'section-head')
-				frm.fields_dict['purchase_receipts_detail'].collapse();
+			// if (frm.fields_dict['filters'].collapse_link[0].className == 'section-head')
+			// 	frm.fields_dict['filters'].collapse();
+			// if (frm.fields_dict['purchase_receipts_detail'].collapse_link[0].className == 'section-head')
+			// 	frm.fields_dict['purchase_receipts_detail'].collapse();
 		}, __("Get items from"));
 
 		frm.add_custom_button(__('Stock Entry'), function() {
@@ -37,10 +37,10 @@ frappe.ui.form.on('Barcode Printing', {
 				}
 			})
 			frm.set_value("get_items_from","Stock Entry");
-			if (frm.fields_dict['filters'].collapse_link[0].className == 'section-head')
-				frm.fields_dict['filters'].collapse();
-			if (frm.fields_dict['stock_entry_detail'].collapse_link[0].className == 'section-head')
-				frm.fields_dict['stock_entry_detail'].collapse();
+			// if (frm.fields_dict['filters'].collapse_link[0].className == 'section-head')
+			// 	frm.fields_dict['filters'].collapse();
+			// if (frm.fields_dict['stock_entry_detail'].collapse_link[0].className == 'section-head')
+			// 	frm.fields_dict['stock_entry_detail'].collapse();
 
 		}, __("Get items from"));
 	},
@@ -68,8 +68,9 @@ frappe.ui.form.on('Barcode Printing', {
 	{
 		frm.doc.items.forEach(d =>			
 			{
-				if (d.item_code && frm.doc.show_sku == 1)
+				if (d.item_code)
 				{
+					console.log("HELLO");
 					frappe.call({
 						method: "barcode_shrdc.barcode_shrdc.doctype.barcode_printing.barcode_printing.search_item_serial_or_batch_or_barcode_number",
 						args: {
@@ -196,6 +197,10 @@ frappe.ui.form.on('Barcode Printing', {
 					if (serials && barcode_format)
 					{
 						serials = serials.split("\n");
+						if (serials[serials.length-1]=='')
+						{
+							serials.pop();
+						}
 						for(const serial of serials)
 						{
 							sku_content += '<div class="label-item-barcode label-field">';
@@ -221,6 +226,10 @@ frappe.ui.form.on('Barcode Printing', {
 					if (serials && barcode_format)
 					{
 						serials = serials.split("\n");
+						if (serials[serials.length-1]=='')
+						{
+							serials.pop();
+						}
 						for(const serial of serials)
 						{
 							JsBarcode(".serial"+i,serial, {
@@ -446,3 +455,33 @@ frappe.ui.form.on('Barcode Generator Items', {
 
 $.extend(cur_frm.cscript, new erpnext.stock.StockController({frm: cur_frm}));
 
+erpnext.stock.select_batch_and_serial_no = (frm, item) => {
+	let get_warehouse_type_and_name = (item) => {
+		let value = '';
+		if(frm.fields_dict.from_warehouse.disp_status === "Write") {
+			value = cstr(item.s_warehouse) || '';
+			return {
+				type: 'Source Warehouse',
+				name: value
+			};
+		} else {
+			value = cstr(item.t_warehouse) || '';
+			return {
+				type: 'Target Warehouse',
+				name: value
+			};
+		}
+	}
+
+	if(item && !item.has_serial_no && !item.has_batch_no) return;
+	if (frm.doc.purpose === 'Material Receipt') return;
+
+	frappe.require("assets/erpnext/js/utils/serial_no_batch_selector.js", function() {
+		new erpnext.SerialNoBatchSelector({
+			frm: frm,
+			item: item,
+			warehouse_details: get_warehouse_type_and_name(item),
+		});
+	});
+
+}
