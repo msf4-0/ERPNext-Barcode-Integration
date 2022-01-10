@@ -18,14 +18,7 @@
   "stock_entry_type",
   "from_date",
   "to_date",
-  "purchase_receipts_detail",
-  "get_purchase_receipt",
-  "purchase_receipts",
-  "stock_entry_detail",
-  "get_stock_entry",
-  "stock_entries",
-  "select_items_to_print_barcode",
-  "get_items",
+  "items_section",
   "items",
   "get_barcode",
   "section_break_23",
@@ -129,62 +122,6 @@
    "fieldtype": "Date",
    "hidden": 1,
    "label": "To Date"
-  },
-  {
-   "collapsible": 1,
-   "collapsible_depends_on": "eval: doc.__islocal",
-   "depends_on": "//eval: doc.get_items_from == \"Purchase Receipt\"",
-   "fieldname": "purchase_receipts_detail",
-   "fieldtype": "Section Break",
-   "hidden": 1,
-   "label": "Purchase Receipts Detail"
-  },
-  {
-   "fieldname": "get_purchase_receipt",
-   "fieldtype": "Button",
-   "hidden": 1,
-   "label": "Get Purchase Receipt"
-  },
-  {
-   "fieldname": "purchase_receipts",
-   "fieldtype": "Table",
-   "hidden": 1,
-   "label": "Purchase Receipts",
-   "no_copy": 1,
-   "options": "Barcode Printing Purchase Receipt"
-  },
-  {
-   "collapsible": 1,
-   "collapsible_depends_on": "eval: doc.__islocal",
-   "depends_on": "eval: doc.get_items_from == \"Stock Entry\"",
-   "fieldname": "stock_entry_detail",
-   "fieldtype": "Section Break",
-   "hidden": 1,
-   "label": "Stock Entry Detail"
-  },
-  {
-   "fieldname": "get_stock_entry",
-   "fieldtype": "Button",
-   "label": "Get Stock Entry"
-  },
-  {
-   "fieldname": "stock_entries",
-   "fieldtype": "Table",
-   "label": "Stock Entries",
-   "no_copy": 1,
-   "options": "Barcode Printing Stock Entry"
-  },
-  {
-   "fieldname": "select_items_to_print_barcode",
-   "fieldtype": "Section Break",
-   "label": "Select Items for Barcode Printing"
-  },
-  {
-   "depends_on": "get_items_from",
-   "fieldname": "get_items",
-   "fieldtype": "Button",
-   "hidden": 1,
-   "label": "Get Items For Barcode Printing"
   },
   {
    "fieldname": "amended_from",
@@ -299,10 +236,15 @@
    "fieldname": "get_barcode",
    "fieldtype": "Button",
    "label": "Get Items Barcode"
+  },
+  {
+   "fieldname": "items_section",
+   "fieldtype": "Section Break",
+   "label": "Items"
   }
  ],
  "icon": "fa fa-print",
- "modified": "2022-01-05 16:18:39.376233",
+ "modified": "2022-01-10 13:37:38.353643",
  "modified_by": "Administrator",
  "module": "Barcode Shrdc",
  "name": "Barcode Printing",
