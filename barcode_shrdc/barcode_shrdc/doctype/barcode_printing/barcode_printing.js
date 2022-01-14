@@ -16,11 +16,13 @@ frappe.ui.form.on('Barcode Printing', {
 					docstatus: 1
 				}
 			})
-			frm.set_value("get_items_from","Purchase Receipt");
+			// frm.set_value("get_items_from","Purchase Receipt");
 			// if (frm.fields_dict['filters'].collapse_link[0].className == 'section-head')
 			// 	frm.fields_dict['filters'].collapse();
 			// if (frm.fields_dict['purchase_receipts_detail'].collapse_link[0].className == 'section-head')
 			// 	frm.fields_dict['purchase_receipts_detail'].collapse();
+			// frm.trigger("get_barcode");
+
 		}, __("Get items from"));
 
 		frm.add_custom_button(__('Stock Entry'), function() {
@@ -36,34 +38,45 @@ frappe.ui.form.on('Barcode Printing', {
 					docstatus: 1
 				}
 			})
-			frm.set_value("get_items_from","Stock Entry");
+			// frm.set_value("get_items_from","Stock Entry");
 			// if (frm.fields_dict['filters'].collapse_link[0].className == 'section-head')
 			// 	frm.fields_dict['filters'].collapse();
 			// if (frm.fields_dict['stock_entry_detail'].collapse_link[0].className == 'section-head')
 			// 	frm.fields_dict['stock_entry_detail'].collapse();
+			// frm.trigger("get_barcode");
 
 		}, __("Get items from"));
 	},
-	// get_purchase_receipt: function(frm) {
-	// 	frappe.call({
-	// 		method: "get_open_purchase_receipt",
-	// 		freeze: true,
-	// 		doc: frm.doc,
-	// 		callback: function(r) {
-	// 			refresh_field("purchase_receipts");
-	// 		}
-	// 	});
-	// },
-	// get_items: function(frm) {
-	// 	frappe.call({
-	// 		method: "get_items",
-	// 		freeze: true,
-	// 		doc: frm.doc,
-	// 		callback: function(r) {
-	// 			refresh_field('items');
-	// 		}
-	// 	});
-	// },
+	validate: function(frm)
+	{
+		for(let item of frm.doc.items)
+		{
+			if (item.serial_no)
+			{
+				var serial_numbers = item.serial_no.split("\n");
+					if (serial_numbers[serial_numbers.length-1]=='')
+					{
+						serial_numbers.pop();
+					}
+				console.log(serial_numbers);
+				var qty = item.qty;
+				if (serial_numbers.length != qty)
+				{
+					frappe.validated = false;
+					frappe.msgprint({
+						title: __('Warning'),
+						indicator: 'red',
+						message: __('{0}: serial no. does not match the number of qty.',[item.item_code]),
+					});
+				}
+			}
+
+
+		
+		}
+
+
+	},
 	get_barcode: function(frm)
 	{
 		frm.doc.items.forEach(d =>			
@@ -78,7 +91,7 @@ frappe.ui.form.on('Barcode Printing', {
 							item:d
 						},
 						callback: function(r) {
-							// console.log(r);
+							console.log(r);
 							var barcode_val = r.message.barcode;
 							var barcode_type = r.message.barcode_type;
 							frappe.model.set_value(d.doctype,d.name,"barcode",barcode_val);
@@ -103,6 +116,26 @@ frappe.ui.form.on('Barcode Printing', {
 	},
 	serial_barcode_type: function(frm) {
 		frm.trigger("show_serial_no_barcode");
+	},
+	show_qr: function(frm)
+	{
+		var qrcontent = '';
+
+
+
+		frappe.call({
+			method: "barcode_shrdc.barcode_shrdc.doctype.barcode_printing.barcode_printing.make_qrcode",
+			args: {
+				doc:frm.doc,
+				route: "http://localhost:8000/item-qr"
+			},
+			callback: function(r) {
+				console.log(r.message);
+				$(frm.fields_dict['qrcodes'].$wrapper).html(r.message)
+			}
+		})
+		console.log("hi");
+
 	},
 	show_sku_barcode: function(frm) {
 		if(frm.doc.show_sku) 

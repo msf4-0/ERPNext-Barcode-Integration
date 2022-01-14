@@ -3,14 +3,16 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
-import frappe, json
+import frappe, json, urllib
 from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
-from frappe import msgprint, _
+from frappe import msgprint, _ 
 from six import string_types, iteritems
-
-
-from frappe.utils import cstr, flt, cint, nowdate, add_days, comma_and, now_datetime, ceil
+import qrcode, io
+from io import BytesIO	
+import base64
+from frappe.integrations.utils import make_get_request, make_post_request, create_request_log
+from frappe.utils import cstr, flt, cint, nowdate, add_days, comma_and, now_datetime, ceil, get_url
 from erpnext.manufacturing.doctype.work_order.work_order import get_item_details
 
 
@@ -59,10 +61,11 @@ class BarcodePrinting(Document):
 			item_condition = ' and pr_item.item_code = {0}'.format(frappe.db.escape(self.item_code))
 		items = frappe.db.sql("""select distinct pr_item.parent, pr_item.item_code, pr_item.warehouse,
 			pr_item.qty, pr_item.description, pr_item.name, pr_item.uom, pr.supplier, pr_item.barcode, 
-			pr_item.serial_no, pr_item.batch_no
-			from `tabPurchase Receipt Item` pr_item , `tabPurchase Receipt` pr
-			where pr_item.parent in (%s) and pr_item.docstatus = 1 """ % \
-			(", ".join(["%s"] * len(pr_list))),tuple(pr_list), as_dict=1)
+			pr_item.serial_no, pr_item.batch_no, 
+			item.barcode
+			from `tabPurchase Receipt Item` pr_item , `tabPurchase Receipt` pr, `tabItem Barcode` item
+			where pr_item.parent in (%s) and pr_item.docstatus = 1  and item.parent = %s""" % \
+			(", ".join(["%s"] * len(pr_list))),self.item_code, tuple(pr_list), as_dict=1)
 
 		if self.item_code:
 			item_condition = ' and so_item.item_code = {0}'.format(frappe.db.escape(self.item_code))
@@ -140,6 +143,12 @@ class BarcodePrinting(Document):
 		})
 
 		return ret
+	
+	def make_qrcode(self,frm):
+		# img = qrcode.make('Some data here')
+		# print(img)
+		img = "hello"
+		return img
 
 	
 
@@ -193,7 +202,8 @@ def pr_make_barcode(source_name, target_doc=None):
 				"parent": "ref_pr",
 				"price_list_rate":"basic_rate",
 				"serial_no":"serial_no",
-				"batch_no":"batch_no"
+				"batch_no":"batch_no",
+				"set_warehouse":"warehouse"
 			},
 		}
 	}, target_doc)
@@ -312,6 +322,7 @@ def create_barcode_printing(throw_if_missing, se_id,pr_id):
 			row.serial_no = item.serial_no
 			row.batch_no = item.batch_no
 			row.ref_pr = pr_id
+			row.warehouse = pr.set_warehouse
 
 	bp.insert(
 		ignore_mandatory=True
@@ -319,5 +330,50 @@ def create_barcode_printing(throw_if_missing, se_id,pr_id):
 
 	if not frappe.db.exists(bp.doctype, bp.name):
 		if throw_if_missing:
-			frappe.throw('Linked document (Stock Entry) not found')
+			frappe.throw('Linked document (Stock Entry / Purchase Receipt) not found')
 	return frappe.get_doc(bp.doctype, bp.name)
+
+@frappe.whitelist()
+def make_qrcode(doc, route):
+	qr_html = ''
+	barcode_doc = frappe.get_doc("Barcode Printing", json.loads(doc)["name"])
+	items = barcode_doc.items
+	for item in items:
+		if item.get("serial_no"):
+			serials = item.get("serial_no").split("\n")
+			if serials[-1] == '':
+				serials.pop()
+			for serial in serials:
+				uri  = "item_qr?"
+				if item.get("item_code"): uri += "item_code=" + urllib.parse.quote(item.get_formatted("item_code")) 
+				if item.get("barcode"): uri += "&barcode=" + urllib.parse.quote(item.get_formatted("barcode")) 
+				if serial: uri += "&serial_no=" + urllib.parse.quote(serial) 
+				if item.get("batch_no"): uri += "&batch_no=" + urllib.parse.quote(item.get_formatted("batch_no")) 
+				if item.get("rate"): uri += "&rate=" + urllib.parse.quote(item.get_formatted("rate")) 
+				url = get_url(uri,None)
+				img = qrcode.make(url)
+				type(img)  # qrcode.image.pil.PilImage
+				print(img)
+				buffered = BytesIO()
+				img.save(buffered, format="PNG")
+				buffered.seek(0)
+				img_str = base64.b64encode(buffered.read())
+				qr_html += '<img src="' + "data:image/png;base64,{0}".format(img_str.decode("utf-8")) + '" width="240px"/><br>'
+		else:
+			uri  = "item_qr?"
+			if item.get("item_code"): uri += "item_code=" + urllib.parse.quote(item.get_formatted("item_code")) 
+			if item.get("barcode"): uri += "&barcode=" + urllib.parse.quote(item.get_formatted("barcode")) 
+			if item.get("batch_no"): uri += "&batch_no=" + urllib.parse.quote(item.get_formatted("batch_no")) 
+			if item.get("rate"): uri += "&rate=" + urllib.parse.quote(item.get_formatted("rate")) 
+			url = get_url(uri,None)
+			img = qrcode.make(url)
+			type(img)  # qrcode.image.pil.PilImage
+			print(img)
+			buffered = BytesIO()
+			img.save(buffered, format="PNG")
+			buffered.seek(0)
+			img_str = base64.b64encode(buffered.read())
+			qr_html += '<img src="' + "data:image/png;base64,{0}".format(img_str.decode("utf-8")) + '" width="240px"/><br>'
+	return qr_html
+
+

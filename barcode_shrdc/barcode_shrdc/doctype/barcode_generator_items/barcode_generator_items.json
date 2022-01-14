@@ -1,0 +1,350 @@
+{
+ "autoname": "hash",
+ "creation": "2021-12-27 11:53:26.903695",
+ "doctype": "DocType",
+ "document_type": "Other",
+ "engine": "InnoDB",
+ "field_order": [
+  "barcode",
+  "col_barcode_column",
+  "barcode_type",
+  "section_break_2",
+  "warehouse",
+  "sec_break1",
+  "item_code",
+  "item_group",
+  "col_break2",
+  "item_name",
+  "subcontracted_item",
+  "section_break_8",
+  "description",
+  "column_break_10",
+  "image",
+  "image_view",
+  "quantity_and_rate",
+  "set_basic_rate_manually",
+  "qty",
+  "basic_rate",
+  "additional_cost",
+  "rate",
+  "col_break3",
+  "uom",
+  "conversion_factor",
+  "retain_sample",
+  "sample_quantity",
+  "serial_no_batch",
+  "serial_no",
+  "supplier",
+  "customer",
+  "waranty_expiry_date",
+  "amc_expiry_date",
+  "col_break4",
+  "batch_no",
+  "mfg_date",
+  "ex_date",
+  "maintenance_status",
+  "warranty_period",
+  "quality_inspection",
+  "reference_section",
+  "ref_pr",
+  "column_break_51",
+  "ref_se"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "barcode",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Barcode"
+  },
+  {
+   "fieldname": "col_barcode_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "barcode_type",
+   "fieldtype": "Select",
+   "label": "Barcode Type",
+   "options": "\nCODE128\nEAN13\nEAN8\nUPC\nCODE39"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "sec_break1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "bold": 1,
+   "columns": 3,
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Item Code",
+   "oldfieldname": "item_code",
+   "oldfieldtype": "Link",
+   "options": "Item",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "item_code.item_group",
+   "fieldname": "item_group",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Group"
+  },
+  {
+   "fieldname": "col_break2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "label": "Item Name",
+   "print_hide": 1
+  },
+  {
+   "depends_on": "eval:parent.purpose == 'Send to Subcontractor'",
+   "fieldname": "subcontracted_item",
+   "fieldtype": "Link",
+   "label": "Subcontracted Item",
+   "options": "Item"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description",
+   "oldfieldname": "description",
+   "oldfieldtype": "Text",
+   "print_width": "300px",
+   "width": "300px"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach",
+   "hidden": 1,
+   "label": "Image"
+  },
+  {
+   "fieldname": "image_view",
+   "fieldtype": "Image",
+   "label": "Image View",
+   "options": "image",
+   "print_hide": 1
+  },
+  {
+   "fieldname": "quantity_and_rate",
+   "fieldtype": "Section Break",
+   "label": "Quantity and Rate"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:in_list([\"Repack\", \"Manufacture\"], parent.purpose) && doc.t_warehouse",
+   "fieldname": "set_basic_rate_manually",
+   "fieldtype": "Check",
+   "label": "Set Basic Rate Manually"
+  },
+  {
+   "bold": 1,
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty",
+   "oldfieldname": "qty",
+   "oldfieldtype": "Currency",
+   "reqd": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "basic_rate",
+   "fieldtype": "Currency",
+   "label": "Basic Rate (as per Stock UOM)",
+   "oldfieldname": "incoming_rate",
+   "oldfieldtype": "Currency",
+   "options": "Company:company:default_currency",
+   "print_hide": 1
+  },
+  {
+   "fieldname": "additional_cost",
+   "fieldtype": "Currency",
+   "label": "Additional Cost",
+   "options": "Company:company:default_currency",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "col_break3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "UOM",
+   "oldfieldname": "uom",
+   "oldfieldtype": "Link",
+   "options": "UOM"
+  },
+  {
+   "fieldname": "conversion_factor",
+   "fieldtype": "Float",
+   "label": "Conversion Factor",
+   "oldfieldname": "conversion_factor",
+   "oldfieldtype": "Currency",
+   "print_hide": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "item_code.retain_sample",
+   "fieldname": "retain_sample",
+   "fieldtype": "Check",
+   "label": "Retain Sample",
+   "read_only": 1
+  },
+  {
+   "depends_on": "retain_sample",
+   "fieldname": "sample_quantity",
+   "fieldtype": "Int",
+   "label": "Sample Quantity"
+  },
+  {
+   "fieldname": "serial_no_batch",
+   "fieldtype": "Section Break",
+   "label": "Serial No / Batch",
+   "no_copy": 1
+  },
+  {
+   "fieldname": "serial_no",
+   "fieldtype": "Small Text",
+   "label": "Serial No",
+   "no_copy": 1,
+   "oldfieldname": "serial_no",
+   "oldfieldtype": "Text"
+  },
+  {
+   "fieldname": "col_break4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "batch_no",
+   "fieldtype": "Link",
+   "label": "Batch No",
+   "no_copy": 1,
+   "oldfieldname": "batch_no",
+   "oldfieldtype": "Link",
+   "options": "Batch"
+  },
+  {
+   "depends_on": "eval:parent.inspection_required && doc.t_warehouse",
+   "fieldname": "quality_inspection",
+   "fieldtype": "Link",
+   "label": "Quality Inspection",
+   "options": "Quality Inspection"
+  },
+  {
+   "fieldname": "reference_section",
+   "fieldtype": "Section Break",
+   "label": "Reference"
+  },
+  {
+   "fieldname": "ref_pr",
+   "fieldtype": "Link",
+   "label": " Purchase Receipt",
+   "options": "Purchase Receipt",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_51",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ref_se",
+   "fieldtype": "Link",
+   "label": "Reference Stock Entry",
+   "options": "Stock Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "mfg_date",
+   "fieldtype": "Date",
+   "label": "Manufacturing Date"
+  },
+  {
+   "fieldname": "ex_date",
+   "fieldtype": "Date",
+   "label": "Expired Date"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "waranty_expiry_date",
+   "fieldtype": "Date",
+   "label": "Warranty Expiry Date"
+  },
+  {
+   "fieldname": "amc_expiry_date",
+   "fieldtype": "Date",
+   "label": "AMC Expiry Date"
+  },
+  {
+   "fieldname": "maintenance_status",
+   "fieldtype": "Select",
+   "label": "Maintenance Status",
+   "options": "\nUnder Warranty\nOut of Warranty\nUnder AMC\nOut of AMC"
+  },
+  {
+   "fieldname": "warranty_period",
+   "fieldtype": "Int",
+   "label": "Warranty Period (Days)"
+  }
+ ],
+ "istable": 1,
+ "modified": "2022-01-13 12:01:53.165250",
+ "modified_by": "Administrator",
+ "module": "Barcode Shrdc",
+ "name": "Barcode Generator Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "ASC"
+}

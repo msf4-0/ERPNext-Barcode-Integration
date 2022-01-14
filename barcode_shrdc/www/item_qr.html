@@ -1,0 +1,25 @@
+{%- block style -%}
+<style>
+    {% include "templates/item_qr/item_qr.css" %}
+
+</style>
+{%- endblock -%}
+<div class="card">
+    <h1>Item Details (QR Code Scanning)</h1>
+    <img src="{{ image }}" alt="Image Not Found" style="width:100%">
+    <p class="name">{{item_code}} : {{item_name}}</p>
+    <p class="price">{{rate}}</p>
+    <p class="serial">Serial No.: {{serial_no}}</p>
+    <p class="batch">Batch No.: {{batch_no}}</p>
+    <p>Manufacturing Date: {{mfg_date}}</p>  
+    <p>Expiry Date: {{exp_date}}</p>
+    <p>Warranty Expiry Date: {{warranty_exp_date}}</p>
+    <p>AMC Expiry Date: {{amc_exp_date}}</p>
+    <p>Creation Document No.: {{creation_doc}}</p>
+    <p>Creation Date: {{creation_date}}</p>
+    <p>Delivery Document No.: {{delivery_doc}}</p>
+    <p>Delivery Date: {{delivery_doc}}</p>
+  
+    <p><button onclick="location.href='{{route}}'">Login & go to Item</button></p>
+  </div>
+  

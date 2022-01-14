@@ -7,7 +7,6 @@
  "field_order": [
   "naming_series",
   "company",
-  "get_items_from",
   "column_break1",
   "filters",
   "item_code",
@@ -27,6 +26,8 @@
   "show_serial_no",
   "column_break_26",
   "show_batch_no",
+  "column_break_23",
+  "show_qr",
   "sku_section",
   "barcodes",
   "serial_section",
@@ -35,6 +36,8 @@
   "batch_section",
   "batch_barcode_type",
   "batchs",
+  "qr_section",
+  "qrcodes",
   "doc_info",
   "amended_from"
  ],
@@ -53,13 +56,6 @@
    "label": "Company",
    "options": "Company",
    "reqd": 1
-  },
-  {
-   "fieldname": "get_items_from",
-   "fieldtype": "Select",
-   "hidden": 1,
-   "label": "Get Items From",
-   "options": "\nPurchase Receipt\nStock Entry"
   },
   {
    "fieldname": "column_break1",
@@ -241,10 +237,31 @@
    "fieldname": "items_section",
    "fieldtype": "Section Break",
    "label": "Items"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "qr_section",
+   "fieldtype": "Section Break",
+   "label": "Preview: QR Code"
+  },
+  {
+   "fieldname": "qrcodes",
+   "fieldtype": "HTML",
+   "label": "QR Codes"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_qr",
+   "fieldtype": "Check",
+   "label": "QR Code Preview"
+  },
+  {
+   "fieldname": "column_break_23",
+   "fieldtype": "Column Break"
   }
  ],
  "icon": "fa fa-print",
- "modified": "2022-01-10 13:37:38.353643",
+ "modified": "2022-01-11 16:59:17.813541",
  "modified_by": "Administrator",
  "module": "Barcode Shrdc",
  "name": "Barcode Printing",
