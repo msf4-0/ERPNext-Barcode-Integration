@@ -127,3 +127,6 @@ app_license = "MIT"
 # 	"Task": "barcode_shrdc.task.get_dashboard_data"
 # }
 
+# fixtures
+fixtures = ['Report', 'Role Profile', 'Role', 'Custom Field', 'Custom Script', 'Property Setter', 'Workflow', 'Workflow State', 'Workflow Action']
+
