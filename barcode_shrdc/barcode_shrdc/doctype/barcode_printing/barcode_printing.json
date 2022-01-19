@@ -26,8 +26,9 @@
   "show_serial_no",
   "column_break_26",
   "show_batch_no",
-  "column_break_23",
-  "show_qr",
+  "section_break_22",
+  "create_qr",
+  "qr_created",
   "sku_section",
   "barcodes",
   "serial_section",
@@ -246,22 +247,31 @@
   },
   {
    "fieldname": "qrcodes",
-   "fieldtype": "HTML",
+   "fieldtype": "Code",
+   "hidden": 1,
    "label": "QR Codes"
   },
   {
-   "default": "0",
-   "fieldname": "show_qr",
-   "fieldtype": "Check",
-   "label": "QR Code Preview"
+   "fieldname": "section_break_22",
+   "fieldtype": "Section Break"
   },
   {
-   "fieldname": "column_break_23",
-   "fieldtype": "Column Break"
+   "default": "0",
+   "description": "Please save before creating QR code for printing",
+   "fieldname": "create_qr",
+   "fieldtype": "Button",
+   "label": "Get QR Code"
+  },
+  {
+   "default": "0",
+   "fieldname": "qr_created",
+   "fieldtype": "Check",
+   "label": "QR Code Created",
+   "read_only": 1
   }
  ],
  "icon": "fa fa-print",
- "modified": "2022-01-11 16:59:17.813541",
+ "modified": "2022-01-14 16:02:55.450135",
  "modified_by": "Administrator",
  "module": "Barcode Shrdc",
  "name": "Barcode Printing",

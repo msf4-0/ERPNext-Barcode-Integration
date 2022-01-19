@@ -2,6 +2,11 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Barcode Printing', {
+	setup: function(frm){
+		frm.set_value("show_sku",0);
+		frm.set_value("show_serial_no",0);
+		frm.set_value("show_batch_no",0);
+	},
 	refresh: function(frm) {
 		frm.add_custom_button(__('Purchase Receipt'), function() {
 			erpnext.utils.map_current_doc({
@@ -60,7 +65,7 @@ frappe.ui.form.on('Barcode Printing', {
 					}
 				console.log(serial_numbers);
 				var qty = item.qty;
-				if (serial_numbers.length != qty)
+				if (serial_numbers.length != qty || qty ==0)
 				{
 					frappe.validated = false;
 					frappe.msgprint({
@@ -117,12 +122,8 @@ frappe.ui.form.on('Barcode Printing', {
 	serial_barcode_type: function(frm) {
 		frm.trigger("show_serial_no_barcode");
 	},
-	show_qr: function(frm)
+	create_qr: function(frm)
 	{
-		var qrcontent = '';
-
-
-
 		frappe.call({
 			method: "barcode_shrdc.barcode_shrdc.doctype.barcode_printing.barcode_printing.make_qrcode",
 			args: {
@@ -131,10 +132,11 @@ frappe.ui.form.on('Barcode Printing', {
 			},
 			callback: function(r) {
 				console.log(r.message);
+				frm.set_value("qrcodes",r.message);
+				frm.set_value("qr_created",1);
 				$(frm.fields_dict['qrcodes'].$wrapper).html(r.message)
 			}
 		})
-		console.log("hi");
 
 	},
 	show_sku_barcode: function(frm) {
@@ -388,6 +390,7 @@ frappe.ui.form.on('Barcode Printing', {
 	items_on_form_rendered: function(doc, grid_row) {
 		erpnext.setup_serial_no();
 	},
+
 });
 
 frappe.ui.form.on('Barcode Generator Items', {
@@ -444,8 +447,16 @@ frappe.ui.form.on('Barcode Generator Items', {
 			});
 		}
 	},
+	items_add: function(frm){
+		frm.set_value("qr_created",0);
 
+	},
+	items_remove:function(frm){
+		frm.set_value("qr_created",0);
+
+	},
 	item_code: function(frm, cdt, cdn) {
+		frm.set_value("qr_created",0);
 		var d = locals[cdt][cdn];
 		if(d.item_code) {
 			var args = {
@@ -474,7 +485,7 @@ frappe.ui.form.on('Barcode Generator Items', {
 								frappe.model.set_value(cdt, cdn, k, v); // qty and it's subsequent fields weren't triggered
 							}
 						});
-						refresh_field("items");
+						frm.refresh_field("items");
 
 						if (!d.serial_no) {
 							erpnext.stock.select_batch_and_serial_no(frm, d);

@@ -19,6 +19,11 @@ def get_data():
                     "type": "doctype",
                     "name": "Barcode Configuration",
                     "onboard": 1,
+                },
+                {
+                    "type": "doctype",
+                    "name": "QR Code Configuration",
+                    "onboard": 1,
                 }
             ]
         }

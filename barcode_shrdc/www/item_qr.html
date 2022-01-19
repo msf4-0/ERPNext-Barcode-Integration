@@ -4,22 +4,92 @@
 
 </style>
 {%- endblock -%}
+<h1>Item Details (QR Code Scanning)</h1>
 <div class="card">
-    <h1>Item Details (QR Code Scanning)</h1>
-    <img src="{{ image }}" alt="Image Not Found" style="width:100%">
-    <p class="name">{{item_code}} : {{item_name}}</p>
-    <p class="price">{{rate}}</p>
-    <p class="serial">Serial No.: {{serial_no}}</p>
-    <p class="batch">Batch No.: {{batch_no}}</p>
-    <p>Manufacturing Date: {{mfg_date}}</p>  
-    <p>Expiry Date: {{exp_date}}</p>
-    <p>Warranty Expiry Date: {{warranty_exp_date}}</p>
-    <p>AMC Expiry Date: {{amc_exp_date}}</p>
-    <p>Creation Document No.: {{creation_doc}}</p>
-    <p>Creation Date: {{creation_date}}</p>
-    <p>Delivery Document No.: {{delivery_doc}}</p>
-    <p>Delivery Date: {{delivery_doc}}</p>
-  
-    <p><button onclick="location.href='{{route}}'">Login & go to Item</button></p>
+    <div class = "image"><img src="{{ image }}" alt="Image Not Found" style="width:100%"></div>
+       
+        <p class="name">{{item_code}} : {{item_name}}</p>    
+    <div class = "details"> 
+        <table>
+            <tr>
+                <td> Barcode: </td>
+                <td> {{barcode}}</td>
+            </tr>
+            <tr>
+                <td> Serial No.:: </td>
+                <td> {{serial_no}}</td>
+            </tr>
+            <tr>
+                <td> Batch No.: </td>
+                <td> {{batch_no}}</td>
+            </tr>
+            <tr>
+                <td> Manufacturing Date: </td>
+                <td> {{mfg_date}}</td>
+            </tr>
+            <tr>
+                <td> Expiry Date: </td>
+                <td> {{exp_date}}</td>
+            </tr>
+            <tr>
+                <td> Warranty Expiry Date: </td>
+                <td> {{warranty_exp_date}}</td>
+            </tr>
+            <tr>
+                <td> AMC Expiry Date: </td>
+                <td> {{amc_exp_date}}</td>
+            </tr>
+            
+            <tr>
+                <td> Creation Document No.: </td>
+                <td> {{creation_doc}}</td>
+            </tr>
+            <tr>
+                <td> Creation Date: </td>
+                <td> {{creation_date}}</td>
+            </tr>
+            <tr>
+                <td> Delivery Document No.: </td>
+                <td> {{delivery_doc}}</td>
+            </tr>
+            <tr>
+                <td> Delivery Date: </td>
+                <td> {{delivery_date}}</td>
+            </tr>
+        </table>
+        <div class = "table">
+            <p>Quantity of items in each warehouse: </p>
+            <!-- from stock summary -->
+
+            <table>
+                <tr>
+                    <!-- {{warehouses}} -->
+                    <th>Warehouse</th>
+                    <th>Actual Quantity</th>
+                </tr>
+                {{warehouse_table}}
+            </table>
+        </div>
+        <br>
+        <div class="table">
+            <p>Serial No. Tracking Table: </p>
+            <!-- from stock ledger entry -->
+            <table>
+                <tr>
+                    <!-- {{warehouses}} -->
+                    <th>Datetime</th>
+                    <th>Warehouse</th>
+                    <th>Quantity</th>
+                    <th>Incoming Rate</th>
+                    <th>Voucher Type</th>
+                    <th>Voucher No.</th>
+                </tr>
+                {{serial_tracking_table}}
+            </table>
+        </div>
+    </div>
+    <hr>
+    <p><button onclick="location.href='{{route}}'">Login & go to Item (for Employee)</button></p>
   </div>
+
   

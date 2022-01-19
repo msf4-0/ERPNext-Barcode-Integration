@@ -8,12 +8,16 @@ from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
 from frappe import msgprint, _ 
 from six import string_types, iteritems
-import qrcode, io
+import qrcode, io, os
 from io import BytesIO	
 import base64
 from frappe.integrations.utils import make_get_request, make_post_request, create_request_log
 from frappe.utils import cstr, flt, cint, nowdate, add_days, comma_and, now_datetime, ceil, get_url
 from erpnext.manufacturing.doctype.work_order.work_order import get_item_details
+import requests
+from PIL import Image
+
+
 
 
 class BarcodePrinting(Document):
@@ -144,11 +148,6 @@ class BarcodePrinting(Document):
 
 		return ret
 	
-	def make_qrcode(self,frm):
-		# img = qrcode.make('Some data here')
-		# print(img)
-		img = "hello"
-		return img
 
 	
 
@@ -339,41 +338,54 @@ def make_qrcode(doc, route):
 	barcode_doc = frappe.get_doc("Barcode Printing", json.loads(doc)["name"])
 	items = barcode_doc.items
 	for item in items:
-		if item.get("serial_no"):
-			serials = item.get("serial_no").split("\n")
-			if serials[-1] == '':
-				serials.pop()
-			for serial in serials:
+		if item.get("qty")!= 0:
+			if item.get("serial_no"):
+				serials = item.get("serial_no").split("\n")
+				if serials[-1] == '':
+					serials.pop()
+				for serial in serials:
+					uri  = "item_qr?"
+					if item.get("item_code"): uri += "item_code=" + urllib.parse.quote(item.get_formatted("item_code")) 
+					if item.get("barcode"): uri += "&barcode=" + urllib.parse.quote(item.get_formatted("barcode")) 
+					if serial: uri += "&serial_no=" + urllib.parse.quote(serial) 
+					if item.get("batch_no"): uri += "&batch_no=" + urllib.parse.quote(item.get_formatted("batch_no")) 
+					# if item.get("rate"): uri += "&rate=" + urllib.parse.quote(item.get_formatted("rate")) 
+					img_str = qr_code_img(uri)
+					qr_html += '<img src="' + "data:image/png;base64,{0}".format(img_str.decode("utf-8")) + '" width="240px"/><br>'
+			else:
 				uri  = "item_qr?"
 				if item.get("item_code"): uri += "item_code=" + urllib.parse.quote(item.get_formatted("item_code")) 
 				if item.get("barcode"): uri += "&barcode=" + urllib.parse.quote(item.get_formatted("barcode")) 
-				if serial: uri += "&serial_no=" + urllib.parse.quote(serial) 
 				if item.get("batch_no"): uri += "&batch_no=" + urllib.parse.quote(item.get_formatted("batch_no")) 
-				if item.get("rate"): uri += "&rate=" + urllib.parse.quote(item.get_formatted("rate")) 
-				url = get_url(uri,None)
-				img = qrcode.make(url)
-				type(img)  # qrcode.image.pil.PilImage
-				print(img)
-				buffered = BytesIO()
-				img.save(buffered, format="PNG")
-				buffered.seek(0)
-				img_str = base64.b64encode(buffered.read())
+				# if item.get("rate"): uri += "&rate=" + urllib.parse.quote(item.get_formatted("rate")) 
+				img_str = qr_code_img(uri)
 				qr_html += '<img src="' + "data:image/png;base64,{0}".format(img_str.decode("utf-8")) + '" width="240px"/><br>'
-		else:
-			uri  = "item_qr?"
-			if item.get("item_code"): uri += "item_code=" + urllib.parse.quote(item.get_formatted("item_code")) 
-			if item.get("barcode"): uri += "&barcode=" + urllib.parse.quote(item.get_formatted("barcode")) 
-			if item.get("batch_no"): uri += "&batch_no=" + urllib.parse.quote(item.get_formatted("batch_no")) 
-			if item.get("rate"): uri += "&rate=" + urllib.parse.quote(item.get_formatted("rate")) 
-			url = get_url(uri,None)
-			img = qrcode.make(url)
-			type(img)  # qrcode.image.pil.PilImage
-			print(img)
-			buffered = BytesIO()
-			img.save(buffered, format="PNG")
-			buffered.seek(0)
-			img_str = base64.b64encode(buffered.read())
-			qr_html += '<img src="' + "data:image/png;base64,{0}".format(img_str.decode("utf-8")) + '" width="240px"/><br>'
 	return qr_html
+
+def qr_code_img(uri):
+	qr_config = frappe.get_doc("QR Code Configuration")
+	qr = qrcode.QRCode(
+		box_size=qr_config.box_size,
+		border=qr_config.border,
+		error_correction=qrcode.constants.ERROR_CORRECT_H,
+	)
+	url = get_url(uri,None)
+	qr.add_data(url)
+	qr.make(fit=True)
+	logo = qr_config.logo
+
+	print(get_url(logo,None))
+	img = qr.make_image(fill_color = qr_config.fill, back_color = qr_config.background)
+	w,h = img.size
+	if logo:
+		logo = Image.open(requests.get(get_url(logo,None), stream=True).raw).resize((w//4, h//4))
+		pos = ((img.size[0] - logo.size[0]) // 2, (img.size[1] - logo.size[1]) // 2)
+		img.paste(logo, pos)
+
+	buffered = BytesIO()
+	img.save(buffered, format="PNG")
+	buffered.seek(0)
+	img_str = base64.b64encode(buffered.read())
+	return img_str
 
 

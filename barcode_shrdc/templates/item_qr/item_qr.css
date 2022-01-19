@@ -1,24 +1,28 @@
 .card {
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-max-width: 800px;
+max-width: 1200px;
 margin: auto;
 /*text-align: center;*/
 font-family: arial;
-padding: 12px;
+display: inline-block;
+resize: both;
+overflow: auto;
 }
 
+.image{
+    float:none;
+    margin:auto;
+    width:50%
+}
+.details{
+    padding: 30px;
+}
 .name {
     font-weight:bold;
     text-align: center;
     font-size: 30px;
     margin-top: 10px;
 }
-.price {
-color: grey;
-font-size: 22px;
-text-align: center;
-}
-
 .card button {
 border: none;
 outline: 0;
@@ -35,11 +39,26 @@ font-size: 18px;
 opacity: 0.7;
 }
 
-h1{
+p{
+    font-size: 19px;
+}
+.table table{
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    
+}
+.table td {
     text-align: center;
-    font-size: 20px;
+  }
+th, td{
+    padding: 16px;
+    font-size: 17px;
 
 }
-p{
-    font-size: 20px;
+.table p{
+    font-weight: bold;
+}
+.details td{
+    column-width: 30%;
 }
