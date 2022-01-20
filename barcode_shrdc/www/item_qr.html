@@ -1,10 +1,15 @@
-{%- block style -%}
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _('Item Details (QR Code Scanning)') }}{% endblock %}
+{% block header %}
+<h1>Item Details (QR Code Scanning)</h1>
+{% endblock header %}
+{% block page_content %}
 <style>
     {% include "templates/item_qr/item_qr.css" %}
-
 </style>
-{%- endblock -%}
-<h1>Item Details (QR Code Scanning)</h1>
+
+
 <div class="card">
     <div class = "image"><img src="{{ image }}" alt="Image Not Found" style="width:100%"></div>
        
@@ -91,5 +96,7 @@
     <hr>
     <p><button onclick="location.href='{{route}}'">Login & go to Item (for Employee)</button></p>
   </div>
+  {% endblock %}
+
 
   

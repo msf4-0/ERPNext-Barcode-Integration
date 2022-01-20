@@ -4,6 +4,7 @@ from locale import currency
 import frappe, json, urllib
 from erpnext.stock.report.stock_projected_qty.stock_projected_qty import get_bin_list
 from frappe.utils import cstr, flt, cint, nowdate, add_days, comma_and, now_datetime, ceil, get_url
+no_cache = 1
 
 def get_context(context):
     barcode = frappe.form_dict.barcode
@@ -11,14 +12,8 @@ def get_context(context):
     item = frappe.get_doc("Item",item_code)
     item_name = item.item_name
     image = item.image if item.image else "/files/No-Image-Placeholder.png"
-    item_price = frappe.form_dict.rate
     serial_no = frappe.form_dict.serial_no
     batch_no = frappe.form_dict.batch_no
-    rate_doc = frappe.get_list("Item Price",     filters={
-        'item_code': item_code
-    })
-    if rate_doc:
-      item_price = frappe.get_doc("Item Price", rate_doc[0].name).get_formatted("price_list_rate")
     # rate = rate_doc[0]#.get_formatted("price_list_rate")
     
     if batch_no:
@@ -54,7 +49,6 @@ def get_context(context):
       "item_name": item_name,
       "item_code": item_code,
       "barcode": barcode,
-      "rate": item_price,
       "serial_no": serial_no,
       "batch_no": batch_no,
       "image": image,

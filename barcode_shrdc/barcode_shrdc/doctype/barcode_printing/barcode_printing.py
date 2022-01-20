@@ -365,7 +365,6 @@ def make_qrcode(doc, route):
 def qr_code_img(uri):
 	qr_config = frappe.get_doc("QR Code Configuration")
 	qr = qrcode.QRCode(
-		box_size=qr_config.box_size,
 		border=qr_config.border,
 		error_correction=qrcode.constants.ERROR_CORRECT_H,
 	)
