@@ -297,17 +297,18 @@ def create_barcode_printing(throw_if_missing, se_id,pr_id):
 	if(se_id):
 		se = frappe.get_doc("Stock Entry", se_id)
 		for item in se.items:
-			row = bp.append('items', {})
-			row.item_code = item.item_code
-			row.qty = item.qty
-			row.basic_rate = item.basic_rate
-			row.rate = item.valuation_rate
-			row.uom = item.uom
-			row.additional_cost = item.additional_cost
-			row.conversion_factor = item.conversion_factor
-			row.serial_no = item.serial_no
-			row.batch_no = item.batch_no
-			row.ref_se = se_id
+			if 	item.t_warehouse != None:
+				row = bp.append('items', {})
+				row.item_code = item.item_code
+				row.qty = item.qty
+				row.basic_rate = item.basic_rate
+				row.rate = item.valuation_rate
+				row.uom = item.uom
+				row.additional_cost = item.additional_cost
+				row.conversion_factor = item.conversion_factor
+				row.serial_no = item.serial_no
+				row.batch_no = item.batch_no
+				row.ref_se = se_id
 	
 	if(pr_id):
 		pr = frappe.get_doc("Purchase Receipt",pr_id)

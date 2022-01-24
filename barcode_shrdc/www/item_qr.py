@@ -83,11 +83,11 @@ def get_serial_tracking_table(item_code, serial_no):
 						or serial_no like %s
 						or serial_no like %s
 					)
+    and warehouse not like "In Transit%%"
     order by timestamp(posting_date, posting_time) """, 
     (item_code, serial_no, serial_no+'\n%', '%\n'+serial_no, '%\n'+serial_no+'\n%'), as_dict = 1)
   serial_tracking_table = ""
   for sle in sle_list:
-    print(sle)
     if(sle.voucher_type == "Stock Entry"):
       company = frappe.get_doc(sle.voucher_type,sle.voucher_no).company
       currency_pre = frappe.get_doc("Currency", frappe.get_doc("Company", company).default_currency).symbol
