@@ -290,8 +290,6 @@ def get_item_details(frm):
 
 @frappe.whitelist()
 def create_barcode_printing(throw_if_missing, se_id,pr_id):	
-	# se = frappe.get_doc("Stock Entry", se_id)
-	# pr = frappe.get_doc("Purchase Receipt",pr_id)
 	bp = frappe.new_doc('Barcode Printing')
 
 	if(se_id):
