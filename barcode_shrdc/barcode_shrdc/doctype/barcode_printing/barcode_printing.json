@@ -29,7 +29,7 @@
   "section_break_22",
   "create_qr",
   "qr_created",
-  "sku_section",
+  "barcode_section",
   "barcodes",
   "serial_section",
   "serial_barcode_type",
@@ -144,19 +144,6 @@
    "reqd": 1
   },
   {
-   "collapsible": 1,
-   "depends_on": "eval:doc.show_sku == 1",
-   "fieldname": "sku_section",
-   "fieldtype": "Section Break",
-   "label": "Preview: SKU Barcode"
-  },
-  {
-   "default": "0",
-   "fieldname": "show_sku",
-   "fieldtype": "Check",
-   "label": "Print SKU Barcode"
-  },
-  {
    "fieldname": "doc_info",
    "fieldtype": "Section Break",
    "label": "DocType Info"
@@ -268,10 +255,23 @@
    "fieldtype": "Check",
    "label": "QR Code Created",
    "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.show_sku == 1",
+   "fieldname": "barcode_section",
+   "fieldtype": "Section Break",
+   "label": "Preview: Barcode"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_sku",
+   "fieldtype": "Check",
+   "label": "Print Barcode"
   }
  ],
  "icon": "fa fa-print",
- "modified": "2022-01-14 16:02:55.450135",
+ "modified": "2022-02-04 09:22:49.428363",
  "modified_by": "Administrator",
  "module": "Barcode Shrdc",
  "name": "Barcode Printing",

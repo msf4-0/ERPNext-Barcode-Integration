@@ -415,6 +415,9 @@ frappe.ui.form.on('Barcode Generator Items', {
 	},
 
 	barcode: function(doc, cdt, cdn) {
+		frm.set_value("qr_created",0);
+		frm.set_value("show_sku",0);
+
 		var d = locals[cdt][cdn];
 		if (d.barcode) {
 			frappe.call({
@@ -447,16 +450,33 @@ frappe.ui.form.on('Barcode Generator Items', {
 			});
 		}
 	},
+	serial_no(frm){
+		frm.set_value("qr_created",0);
+		frm.set_value("show_serial_no",0);
+	},
+	batch_no(frm){
+		frm.set_value("qr_created",0);
+		frm.set_value("show_batch_no",0);
+	},
 	items_add: function(frm){
 		frm.set_value("qr_created",0);
+		frm.set_value("show_sku",0);
+		frm.set_value("show_serial_no",0);
+		frm.set_value("show_batch_no",0);
 
 	},
 	items_remove:function(frm){
 		frm.set_value("qr_created",0);
+		frm.set_value("show_sku",0);
+		frm.set_value("show_serial_no",0);
+		frm.set_value("show_batch_no",0);
 
 	},
 	item_code: function(frm, cdt, cdn) {
 		frm.set_value("qr_created",0);
+		frm.set_value("show_sku",0);
+		frm.set_value("show_serial_no",0);
+		frm.set_value("show_batch_no",0);
 		var d = locals[cdt][cdn];
 		if(d.item_code) {
 			var args = {
