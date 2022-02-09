@@ -1,6 +1,6 @@
 ## Barcode Shrdc
 
-Generate barcode for items
+ERPNext Custom App to Generate barcode for items
 
 #### License
 
