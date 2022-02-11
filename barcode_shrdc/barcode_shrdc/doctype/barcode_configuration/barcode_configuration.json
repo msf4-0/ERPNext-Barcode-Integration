@@ -17,8 +17,11 @@
   "background",
   "line",
   "texts_section",
+  "show_item_code",
   "item_code_font_size",
+  "show_item_name",
   "item_name_font_size",
+  "show_item_price",
   "item_price_font_size"
  ],
  "fields": [
@@ -91,18 +94,21 @@
   },
   {
    "default": "1.3",
+   "depends_on": "show_item_code",
    "fieldname": "item_code_font_size",
    "fieldtype": "Float",
    "label": "Item Code Font Size"
   },
   {
    "default": "1.1",
+   "depends_on": "show_item_name",
    "fieldname": "item_name_font_size",
    "fieldtype": "Float",
    "label": "Item Name Font Size"
   },
   {
    "default": "1.1",
+   "depends_on": "show_item_price",
    "fieldname": "item_price_font_size",
    "fieldtype": "Float",
    "label": "Item Price Font Size"
@@ -111,16 +117,34 @@
    "description": "(in em)",
    "fieldname": "texts_section",
    "fieldtype": "Section Break",
-   "label": "Texts font size "
+   "label": "Texts"
   },
   {
    "fieldname": "barcode_section",
    "fieldtype": "Section Break",
    "label": "Barcode"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_item_code",
+   "fieldtype": "Check",
+   "label": "Show Item Code"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_item_name",
+   "fieldtype": "Check",
+   "label": "Show Item Name"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_item_price",
+   "fieldtype": "Check",
+   "label": "Show Item Price"
   }
  ],
  "issingle": 1,
- "modified": "2022-01-20 11:21:32.303958",
+ "modified": "2022-02-09 17:50:44.679709",
  "modified_by": "Administrator",
  "module": "Barcode Shrdc",
  "name": "Barcode Configuration",

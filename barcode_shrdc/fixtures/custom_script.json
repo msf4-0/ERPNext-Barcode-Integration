@@ -31,5 +31,16 @@
   "parentfield": null,
   "parenttype": null,
   "script": "frappe.ui.form.on('Purchase Receipt', {\n\trefresh(frm) {\n\t\tif(frm.doc.docstatus===1) {\n\t\t\tfrm.add_custom_button(__(\"Barcode Printing\"), function() {\n            frappe.call({\n                method:'barcode_shrdc.barcode_shrdc.doctype.barcode_printing.barcode_printing.create_barcode_printing',\n                args:{ throw_if_missing: true, \n                    se_id: null,\n                    pr_id: frm.doc.name}\n                \n            })\n\t\t\t\t.then(r => {\n\t\t\t\t\tif (r.message) {\n\t\t\t\t\t    console.log(r.message)\n\t\t\t\t\t\tlet new_bp_doc = r.message;\t// new barcode printing request\n\t\t\t\t\t\tfrappe.set_route(\"Form\", new_bp_doc.doctype, new_bp_doc.name);\n\t\t\t\t\t}\n\t\t\t\t})\n\t\t\t},  __(\"Create\"));\n\t\t\tfrm.page.set_inner_btn_group_as_primary(__('Create'));\n\n\t\t}\n\t}\n})"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Work Order",
+  "modified": "2022-02-07 16:13:45.255786",
+  "name": "Work Order-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "frappe.ui.form.on('Work Order', {\n\tsetup(frm) {\n\t\t// your code here\n\t\tfrm.trigger(\"production_item\")\n\t}\n})"
  }
 ]

@@ -130,3 +130,14 @@ app_license = "MIT"
 # fixtures
 fixtures = ['Print Format','Report', 'Role Profile', 'Role', 'Custom Field', 'Custom Script', 'Property Setter', 'Workflow', 'Workflow State', 'Workflow Action']
 
+# javascript
+# doctype_js = {
+#     'Item':'public/js/....'
+# }
+# # will extend 
+
+# # python
+# override_whitelisted_methods ={
+#     "":""
+# }
+# write in events 
