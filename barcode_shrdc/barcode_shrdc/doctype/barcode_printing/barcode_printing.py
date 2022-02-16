@@ -21,165 +21,166 @@ from PIL import Image
 
 
 class BarcodePrinting(Document):
-	def get_open_purchase_receipt(self):
-		""" Pull Purchase Receipt based on criteria selected"""
-		open_pr = get_purchase_receipts(self)
+	pass
+# 	def get_open_purchase_receipt(self):
+# 		""" Pull Purchase Receipt based on criteria selected"""
+# 		open_pr = get_purchase_receipts(self)
 
-		if open_pr:
-			self.add_pr_in_table(open_pr)
-		else:
-			frappe.msgprint(_("Purchase Order not available"))
+# 		if open_pr:
+# 			self.add_pr_in_table(open_pr)
+# 		else:
+# 			frappe.msgprint(_("Purchase Order not available"))
 
-	def add_pr_in_table(self, open_pr):
-		""" Add sales orders in the table"""
-		self.set('purchase_receipt', [])
+# 	def add_pr_in_table(self, open_pr):
+# 		""" Add sales orders in the table"""
+# 		self.set('purchase_receipt', [])
 
-		for data in open_pr:
-			self.append('purchase_receipts', {
-				'purchase_receipt': data.name,
-				'pr_date': data.posting_date,
-				'supplier': data.supplier,
-				'grand_total': data.total
-			})
+# 		for data in open_pr:
+# 			self.append('purchase_receipts', {
+# 				'purchase_receipt': data.name,
+# 				'pr_date': data.posting_date,
+# 				'supplier': data.supplier,
+# 				'grand_total': data.total
+# 			})
 
-	def get_items(self):
-		if self.get_items_from == "Purchase Receipt":
-			self.get_pr_items()
-		elif self.get_items_from == "Stock Entry":
-			self.get_se_items()
+# 	def get_items(self):
+# 		if self.get_items_from == "Purchase Receipt":
+# 			self.get_pr_items()
+# 		elif self.get_items_from == "Stock Entry":
+# 			self.get_se_items()
 	
-	def get_pr_se_list(self, field, table):
-		"""Returns a list of Purchase Orders or Stock Entries from the respective tables"""
-		pr_se_list = [d.get(field) for d in self.get(table) if d.get(field)]
-		return pr_se_list
+# 	def get_pr_se_list(self, field, table):
+# 		"""Returns a list of Purchase Orders or Stock Entries from the respective tables"""
+# 		pr_se_list = [d.get(field) for d in self.get(table) if d.get(field)]
+# 		return pr_se_list
 
-	def get_pr_items(self):
-		# Check for empty table or empty rows
-		if not self.get("purchase_receipts") or not self.get_pr_se_list("purchase_receipt", "purchase_receipts"):
-			frappe.throw(_("Please fill the Purchase Receipt table"), title=_("Purchase Receipt Required"))
+# 	def get_pr_items(self):
+# 		# Check for empty table or empty rows
+# 		if not self.get("purchase_receipts") or not self.get_pr_se_list("purchase_receipt", "purchase_receipts"):
+# 			frappe.throw(_("Please fill the Purchase Receipt table"), title=_("Purchase Receipt Required"))
 
-		pr_list = self.get_pr_se_list("purchase_receipt", "purchase_receipts")
+# 		pr_list = self.get_pr_se_list("purchase_receipt", "purchase_receipts")
 		
-		item_condition = ""
-		if self.item_code:
-			item_condition = ' and pr_item.item_code = {0}'.format(frappe.db.escape(self.item_code))
-		items = frappe.db.sql("""select distinct pr_item.parent, pr_item.item_code, pr_item.warehouse,
-			pr_item.qty, pr_item.description, pr_item.name, pr_item.uom, pr.supplier, pr_item.barcode, 
-			pr_item.serial_no, pr_item.batch_no, 
-			item.barcode
-			from `tabPurchase Receipt Item` pr_item , `tabPurchase Receipt` pr, `tabItem Barcode` item
-			where pr_item.parent in (%s) and pr_item.docstatus = 1  and item.parent = %s""" % \
-			(", ".join(["%s"] * len(pr_list))),self.item_code, tuple(pr_list), as_dict=1)
+# 		item_condition = ""
+# 		if self.item_code:
+# 			item_condition = ' and pr_item.item_code = {0}'.format(frappe.db.escape(self.item_code))
+# 		items = frappe.db.sql("""select distinct pr_item.parent, pr_item.item_code, pr_item.warehouse,
+# 			pr_item.qty, pr_item.description, pr_item.name, pr_item.uom, pr.supplier, pr_item.barcode, 
+# 			pr_item.serial_no, pr_item.batch_no, 
+# 			item.barcode
+# 			from `tabPurchase Receipt Item` pr_item , `tabPurchase Receipt` pr, `tabItem Barcode` item
+# 			where pr_item.parent in (%s) and pr_item.docstatus = 1  and item.parent = %s""" % \
+# 			(", ".join(["%s"] * len(pr_list))),self.item_code, tuple(pr_list), as_dict=1)
 
-		if self.item_code:
-			item_condition = ' and so_item.item_code = {0}'.format(frappe.db.escape(self.item_code))
+# 		if self.item_code:
+# 			item_condition = ' and so_item.item_code = {0}'.format(frappe.db.escape(self.item_code))
 
-		self.add_items(items)
+# 		self.add_items(items)
 	
-	def add_items(self, items):
-		self.set('items', [])
-		for data in items:
-			pi = self.append('items', {
-				'warehouse': data.warehouse,
-				'item_code': data.item_code,
+# 	def add_items(self, items):
+# 		self.set('items', [])
+# 		for data in items:
+# 			pi = self.append('items', {
+# 				'warehouse': data.warehouse,
+# 				'item_code': data.item_code,
 				
-				'description': data.description,
-				'qty': data.qty,
-				'supplier': data.supplier,
-				'uom': data.uom,
-				'barcode': data.barcode,
-				'serial_no': data.serial_no,
-				'batch_no': data.batch_no
-			})
+# 				'description': data.description,
+# 				'qty': data.qty,
+# 				'supplier': data.supplier,
+# 				'uom': data.uom,
+# 				'barcode': data.barcode,
+# 				'serial_no': data.serial_no,
+# 				'batch_no': data.batch_no
+# 			})
 
-			if self.get_items_from == "Purchase Receipt":
-				pi.ref_pr = data.parent
-				pi.description = data.description
+# 			if self.get_items_from == "Purchase Receipt":
+# 				pi.ref_pr = data.parent
+# 				pi.description = data.description
 
-			elif self.get_items_from == "Stock Entry":
-				pi.ref_se = data.parent
-				pi.description = data.description
+# 			elif self.get_items_from == "Stock Entry":
+# 				pi.ref_se = data.parent
+# 				pi.description = data.description
 	
-	def get_item_barcode(self):
-		print(self.items)
-		item = frappe.db.sql("""select barcode, barcode_type
-			from `tabItem Barcode` 
-			where parent=%s""",
-			"ITM-001", as_dict = 1)
+# 	def get_item_barcode(self):
+# 		print(self.items)
+# 		item = frappe.db.sql("""select barcode, barcode_type
+# 			from `tabItem Barcode` 
+# 			where parent=%s""",
+# 			"ITM-001", as_dict = 1)
 
-		if not item:
-			frappe.throw(_("Item {0} is not active or end of life has been reached"))
+# 		if not item:
+# 			frappe.throw(_("Item {0} is not active or end of life has been reached"))
 
-		item = item[0]
+# 		item = item[0]
 		
-		return item
+# 		return item
 
-	def get_item_details(self, args=None, for_update=False):
-		item = frappe.db.sql("""select i.name, i.stock_uom, i.description, i.image, i.item_name, i.item_group,
-				i.has_batch_no, i.sample_quantity, i.has_serial_no, i.allow_alternative_item,
-				id.expense_account, id.buying_cost_center
-			from `tabItem` i LEFT JOIN `tabItem Default` id ON i.name=id.parent and id.company=%s
-			where i.name=%s
-				and i.disabled=0
-				and (i.end_of_life is null or i.end_of_life='0000-00-00' or i.end_of_life > %s)""",
-			(self.company, args.get('item_code'), nowdate()), as_dict = 1)
+# 	def get_item_details(self, args=None, for_update=False):
+# 		item = frappe.db.sql("""select i.name, i.stock_uom, i.description, i.image, i.item_name, i.item_group,
+# 				i.has_batch_no, i.sample_quantity, i.has_serial_no, i.allow_alternative_item,
+# 				id.expense_account, id.buying_cost_center
+# 			from `tabItem` i LEFT JOIN `tabItem Default` id ON i.name=id.parent and id.company=%s
+# 			where i.name=%s
+# 				and i.disabled=0
+# 				and (i.end_of_life is null or i.end_of_life='0000-00-00' or i.end_of_life > %s)""",
+# 			(self.company, args.get('item_code'), nowdate()), as_dict = 1)
 
-		if not item:
-			frappe.throw(_("Item {0} is not active or end of life has been reached").format(args.get("item_code")))
+# 		if not item:
+# 			frappe.throw(_("Item {0} is not active or end of life has been reached").format(args.get("item_code")))
 
-		item = item[0]
+# 		item = item[0]
 
-		ret = frappe._dict({
-			'uom'			      	: item.stock_uom,
-			'stock_uom'				: item.stock_uom,
-			'description'		  	: item.description,
-			'image'					: item.image,
-			'item_name' 		  	: item.item_name,
-			'qty'					: args.get("qty"),
-			'conversion_factor'		: 1,
-			'batch_no'				: '',
-			'actual_qty'			: 0,
-			'basic_rate'			: 0,
-			'serial_no'				: '',
-			'has_serial_no'			: item.has_serial_no,
-			'has_batch_no'			: item.has_batch_no,
-			'sample_quantity'		: item.sample_quantity
-		})
+# 		ret = frappe._dict({
+# 			'uom'			      	: item.stock_uom,
+# 			'stock_uom'				: item.stock_uom,
+# 			'description'		  	: item.description,
+# 			'image'					: item.image,
+# 			'item_name' 		  	: item.item_name,
+# 			'qty'					: args.get("qty"),
+# 			'conversion_factor'		: 1,
+# 			'batch_no'				: '',
+# 			'actual_qty'			: 0,
+# 			'basic_rate'			: 0,
+# 			'serial_no'				: '',
+# 			'has_serial_no'			: item.has_serial_no,
+# 			'has_batch_no'			: item.has_batch_no,
+# 			'sample_quantity'		: item.sample_quantity
+# 		})
 
-		return ret
+# 		return ret
 	
 
 	
 
-def get_purchase_receipts(self):
-	pr_filter = item_filter = ""
-	if self.from_date:
-		pr_filter += " and pr.posting_date >= %(from_date)s"
-	if self.to_date:
-		pr_filter += " and pr.posting_date <= %(to_date)s"
-	if self.warehouse:
-		pr_filter += " and pr.set_warehouse = %(warehouse)s"
-	if self.supplier:
-		pr_filter += " and pr.supplier = %(supplier)s"
+# def get_purchase_receipts(self):
+# 	pr_filter = item_filter = ""
+# 	if self.from_date:
+# 		pr_filter += " and pr.posting_date >= %(from_date)s"
+# 	if self.to_date:
+# 		pr_filter += " and pr.posting_date <= %(to_date)s"
+# 	if self.warehouse:
+# 		pr_filter += " and pr.set_warehouse = %(warehouse)s"
+# 	if self.supplier:
+# 		pr_filter += " and pr.supplier = %(supplier)s"
 
-	if self.item_code:
-		item_filter += " and pr_item.item_code = %(item)s"
+# 	if self.item_code:
+# 		item_filter += " and pr_item.item_code = %(item)s"
 
-	open_pr = frappe.db.sql("""
-		select distinct pr.name, pr.posting_date, pr.supplier, pr.base_grand_total
-		from `tabPurchase Receipt` pr, `tabPurchase Receipt Item` pr_item
-		where pr_item.parent = pr.name
-			and pr.docstatus = 1 and pr.status not in ("Stopped", "Closed")
-			and pr.company = %(company)s
-		""".format(pr_filter, item_filter), {
-			"from_date": self.from_date,
-			"to_date": self.to_date,
-			"supplier": self.supplier,
-			"set_warehouse": self.warehouse,
-			"item": self.item_code,
-			"company": self.company
-		}, as_dict=1)
-	return open_pr
+# 	open_pr = frappe.db.sql("""
+# 		select distinct pr.name, pr.posting_date, pr.supplier, pr.base_grand_total
+# 		from `tabPurchase Receipt` pr, `tabPurchase Receipt Item` pr_item
+# 		where pr_item.parent = pr.name
+# 			and pr.docstatus = 1 and pr.status not in ("Stopped", "Closed")
+# 			and pr.company = %(company)s
+# 		""".format(pr_filter, item_filter), {
+# 			"from_date": self.from_date,
+# 			"to_date": self.to_date,
+# 			"supplier": self.supplier,
+# 			"set_warehouse": self.warehouse,
+# 			"item": self.item_code,
+# 			"company": self.company
+# 		}, as_dict=1)
+# 	return open_pr
 
 
 

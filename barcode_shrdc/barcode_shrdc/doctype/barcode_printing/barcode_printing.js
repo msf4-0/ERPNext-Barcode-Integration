@@ -21,12 +21,6 @@ frappe.ui.form.on('Barcode Printing', {
 					docstatus: 1
 				}
 			})
-			// frm.set_value("get_items_from","Purchase Receipt");
-			// if (frm.fields_dict['filters'].collapse_link[0].className == 'section-head')
-			// 	frm.fields_dict['filters'].collapse();
-			// if (frm.fields_dict['purchase_receipts_detail'].collapse_link[0].className == 'section-head')
-			// 	frm.fields_dict['purchase_receipts_detail'].collapse();
-			// frm.trigger("get_barcode");
 
 		}, __("Get items from"));
 
@@ -43,12 +37,7 @@ frappe.ui.form.on('Barcode Printing', {
 					docstatus: 1
 				}
 			})
-			// frm.set_value("get_items_from","Stock Entry");
-			// if (frm.fields_dict['filters'].collapse_link[0].className == 'section-head')
-			// 	frm.fields_dict['filters'].collapse();
-			// if (frm.fields_dict['stock_entry_detail'].collapse_link[0].className == 'section-head')
-			// 	frm.fields_dict['stock_entry_detail'].collapse();
-			// frm.trigger("get_barcode");
+
 
 		}, __("Get items from"));
 	},
