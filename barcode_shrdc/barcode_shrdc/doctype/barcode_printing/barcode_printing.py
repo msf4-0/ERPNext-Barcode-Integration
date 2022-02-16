@@ -212,10 +212,8 @@ def pr_make_barcode(source_name, target_doc=None):
 
 @frappe.whitelist()
 def se_make_barcode(source_name, target_doc=None):
-	# print(json.loads(target_doc)["name"])
 
 	def check_manufacturing(d):
-		# print(frappe.get_doc("Stock Entry",d.parent).stock_entry_type)
 		if frappe.get_doc("Stock Entry",d.parent).stock_entry_type == "Manufacture":
 			return  (d.t_warehouse != None)
 		return 1
@@ -276,7 +274,6 @@ def search_item_serial_or_batch_or_barcode_number(search_value,item):
 def get_item_details(frm):
 	items = frm.doc.items
 	item_code_list = [d.get("item_code") for d in items if d.get("item_code")]
-	print(item_code_list)
 	item = frappe.db.sql("""select barcode, barcode_type
 		from `tabItem Barcode` 
 		where i.parent=%s""",
@@ -373,7 +370,6 @@ def qr_code_img(uri):
 	qr.make(fit=True)
 	logo = qr_config.logo
 
-	print(get_url(logo,None))
 	img = qr.make_image(fill_color = qr_config.fill, back_color = qr_config.background)
 	w,h = img.size
 	if logo:
