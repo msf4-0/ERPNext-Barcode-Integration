@@ -35,16 +35,7 @@
   "sample_quantity",
   "serial_no_batch",
   "serial_no",
-  "supplier",
-  "customer",
-  "waranty_expiry_date",
-  "amc_expiry_date",
-  "col_break4",
   "batch_no",
-  "mfg_date",
-  "ex_date",
-  "maintenance_status",
-  "warranty_period",
   "quality_inspection",
   "reference_section",
   "ref_pr",
@@ -254,10 +245,6 @@
    "oldfieldtype": "Text"
   },
   {
-   "fieldname": "col_break4",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "batch_no",
    "fieldtype": "Link",
    "label": "Batch No",
@@ -295,53 +282,10 @@
    "label": "Reference Stock Entry",
    "options": "Stock Entry",
    "read_only": 1
-  },
-  {
-   "fieldname": "mfg_date",
-   "fieldtype": "Date",
-   "label": "Manufacturing Date"
-  },
-  {
-   "fieldname": "ex_date",
-   "fieldtype": "Date",
-   "label": "Expired Date"
-  },
-  {
-   "fieldname": "supplier",
-   "fieldtype": "Link",
-   "label": "Supplier",
-   "options": "Supplier"
-  },
-  {
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "label": "Customer",
-   "options": "Customer"
-  },
-  {
-   "fieldname": "waranty_expiry_date",
-   "fieldtype": "Date",
-   "label": "Warranty Expiry Date"
-  },
-  {
-   "fieldname": "amc_expiry_date",
-   "fieldtype": "Date",
-   "label": "AMC Expiry Date"
-  },
-  {
-   "fieldname": "maintenance_status",
-   "fieldtype": "Select",
-   "label": "Maintenance Status",
-   "options": "\nUnder Warranty\nOut of Warranty\nUnder AMC\nOut of AMC"
-  },
-  {
-   "fieldname": "warranty_period",
-   "fieldtype": "Int",
-   "label": "Warranty Period (Days)"
   }
  ],
  "istable": 1,
- "modified": "2022-01-27 10:09:52.960408",
+ "modified": "2022-02-19 15:36:31.685090",
  "modified_by": "Administrator",
  "module": "Barcode Shrdc",
  "name": "Barcode Generator Items",

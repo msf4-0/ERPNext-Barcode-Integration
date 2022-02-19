@@ -10,6 +10,6 @@ def get_data():
 			"color": "grey",
 			"icon": "fa fa-barcode",
 			"type": "module",
-			"label": _("Barcode Shrdc")
+			"label": _("Barcode Scanning System")
 		}
 	]
