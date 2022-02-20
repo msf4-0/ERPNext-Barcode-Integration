@@ -1,4 +1,4 @@
-## Barcode Shrdc
+## ERPNext Barcode Integration
 
 ERPNext Custom App to Generate barcode for items
 
