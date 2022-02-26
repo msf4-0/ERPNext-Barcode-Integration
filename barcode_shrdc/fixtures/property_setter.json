@@ -1473,22 +1473,6 @@
  },
  {
   "default_value": null,
-  "doc_type": "QR Code Printing Items",
-  "docstatus": 0,
-  "doctype": "Property Setter",
-  "doctype_or_field": "DocField",
-  "field_name": "barcode",
-  "modified": "2022-02-09 16:33:07.455346",
-  "name": "QR Code Printing Items-barcode-hidden",
-  "parent": null,
-  "parentfield": null,
-  "parenttype": null,
-  "property": "hidden",
-  "property_type": "Check",
-  "value": "0"
- },
- {
-  "default_value": null,
   "doc_type": "Job Card",
   "docstatus": 0,
   "doctype": "Property Setter",

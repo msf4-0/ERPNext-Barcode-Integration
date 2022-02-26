@@ -10,8 +10,11 @@
   "fill",
   "logo",
   "texts_section",
+  "show_item_code",
   "item_code_font_size",
+  "show_item_name",
   "item_name_font_size",
+  "show_item_price",
   "item_price_font_size"
  ],
  "fields": [
@@ -29,18 +32,21 @@
   },
   {
    "default": "1.3",
+   "depends_on": "show_item_code",
    "fieldname": "item_code_font_size",
    "fieldtype": "Float",
    "label": "Item Code Font Size"
   },
   {
    "default": "1.1",
+   "depends_on": "show_item_name",
    "fieldname": "item_name_font_size",
    "fieldtype": "Float",
    "label": "Item Name Font Size"
   },
   {
    "default": "1.1",
+   "depends_on": "show_item_price",
    "fieldname": "item_price_font_size",
    "fieldtype": "Float",
    "label": "Item Price Font Size"
@@ -66,10 +72,28 @@
    "fieldname": "logo",
    "fieldtype": "Attach Image",
    "label": "Logo"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_item_code",
+   "fieldtype": "Check",
+   "label": "Show Item Code"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_item_name",
+   "fieldtype": "Check",
+   "label": "Show Item Name"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_item_price",
+   "fieldtype": "Check",
+   "label": "Show Item Price"
   }
  ],
  "issingle": 1,
- "modified": "2022-01-17 17:24:41.919169",
+ "modified": "2022-02-26 11:54:50.873318",
  "modified_by": "Administrator",
  "module": "Barcode Shrdc",
  "name": "QR Code Configuration",

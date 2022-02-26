@@ -115,39 +115,39 @@ class BarcodePrinting(Document):
 		
 # 		return item
 
-# 	def get_item_details(self, args=None, for_update=False):
-# 		item = frappe.db.sql("""select i.name, i.stock_uom, i.description, i.image, i.item_name, i.item_group,
-# 				i.has_batch_no, i.sample_quantity, i.has_serial_no, i.allow_alternative_item,
-# 				id.expense_account, id.buying_cost_center
-# 			from `tabItem` i LEFT JOIN `tabItem Default` id ON i.name=id.parent and id.company=%s
-# 			where i.name=%s
-# 				and i.disabled=0
-# 				and (i.end_of_life is null or i.end_of_life='0000-00-00' or i.end_of_life > %s)""",
-# 			(self.company, args.get('item_code'), nowdate()), as_dict = 1)
+	def get_item_details(self, args=None, for_update=False):
+		item = frappe.db.sql("""select i.name, i.stock_uom, i.description, i.image, i.item_name, i.item_group,
+				i.has_batch_no, i.sample_quantity, i.has_serial_no, i.allow_alternative_item,
+				id.expense_account, id.buying_cost_center
+			from `tabItem` i LEFT JOIN `tabItem Default` id ON i.name=id.parent and id.company=%s
+			where i.name=%s
+				and i.disabled=0
+				and (i.end_of_life is null or i.end_of_life='0000-00-00' or i.end_of_life > %s)""",
+			(self.company, args.get('item_code'), nowdate()), as_dict = 1)
 
-# 		if not item:
-# 			frappe.throw(_("Item {0} is not active or end of life has been reached").format(args.get("item_code")))
+		if not item:
+			frappe.throw(_("Item {0} is not active or end of life has been reached").format(args.get("item_code")))
 
-# 		item = item[0]
+		item = item[0]
 
-# 		ret = frappe._dict({
-# 			'uom'			      	: item.stock_uom,
-# 			'stock_uom'				: item.stock_uom,
-# 			'description'		  	: item.description,
-# 			'image'					: item.image,
-# 			'item_name' 		  	: item.item_name,
-# 			'qty'					: args.get("qty"),
-# 			'conversion_factor'		: 1,
-# 			'batch_no'				: '',
-# 			'actual_qty'			: 0,
-# 			'basic_rate'			: 0,
-# 			'serial_no'				: '',
-# 			'has_serial_no'			: item.has_serial_no,
-# 			'has_batch_no'			: item.has_batch_no,
-# 			'sample_quantity'		: item.sample_quantity
-# 		})
+		ret = frappe._dict({
+			'uom'			      	: item.stock_uom,
+			'stock_uom'				: item.stock_uom,
+			'description'		  	: item.description,
+			'image'					: item.image,
+			'item_name' 		  	: item.item_name,
+			'qty'					: args.get("qty"),
+			'conversion_factor'		: 1,
+			'batch_no'				: '',
+			'actual_qty'			: 0,
+			'basic_rate'			: 0,
+			'serial_no'				: '',
+			'has_serial_no'			: item.has_serial_no,
+			'has_batch_no'			: item.has_batch_no,
+			'sample_quantity'		: item.sample_quantity
+		})
 
-# 		return ret
+		return ret
 	
 
 	
