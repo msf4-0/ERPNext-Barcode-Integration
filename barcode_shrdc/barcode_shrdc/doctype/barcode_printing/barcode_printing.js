@@ -117,7 +117,8 @@ frappe.ui.form.on('Barcode Printing', {
 			method: "barcode_shrdc.barcode_shrdc.doctype.barcode_printing.barcode_printing.make_qrcode",
 			args: {
 				doc:frm.doc,
-				route: "http://localhost:8000/item-qr"
+				route: frappe.urllib.get_base_url()
+
 			},
 			callback: function(r) {
 				console.log(r.message);

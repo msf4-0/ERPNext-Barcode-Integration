@@ -347,7 +347,7 @@ def make_qrcode(doc, route):
 					if serial: uri += "&serial_no=" + urllib.parse.quote(serial) 
 					if item.get("batch_no"): uri += "&batch_no=" + urllib.parse.quote(item.get_formatted("batch_no")) 
 					# if item.get("rate"): uri += "&rate=" + urllib.parse.quote(item.get_formatted("rate")) 
-					img_str = qr_code_img(uri)
+					img_str = qr_code_img(uri,route)
 					qr_html += '<img src="' + "data:image/png;base64,{0}".format(img_str.decode("utf-8")) + '" width="240px"/><br>'
 			else:
 				uri  = "item_qr?"
@@ -355,17 +355,17 @@ def make_qrcode(doc, route):
 				if item.get("barcode"): uri += "&barcode=" + urllib.parse.quote(item.get_formatted("barcode")) 
 				if item.get("batch_no"): uri += "&batch_no=" + urllib.parse.quote(item.get_formatted("batch_no")) 
 				# if item.get("rate"): uri += "&rate=" + urllib.parse.quote(item.get_formatted("rate")) 
-				img_str = qr_code_img(uri)
+				img_str = qr_code_img(uri,route)
 				qr_html += '<img src="' + "data:image/png;base64,{0}".format(img_str.decode("utf-8")) + '" width="240px"/><br>'
 	return qr_html
 
-def qr_code_img(uri):
+def qr_code_img(uri,route):
 	qr_config = frappe.get_doc("QR Code Configuration")
 	qr = qrcode.QRCode(
 		border=qr_config.border,
 		error_correction=qrcode.constants.ERROR_CORRECT_H,
 	)
-	url = get_url(uri,None)
+	url = route + "/" + uri
 	qr.add_data(url)
 	qr.make(fit=True)
 	logo = qr_config.logo
